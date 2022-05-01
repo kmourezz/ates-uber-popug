@@ -1,0 +1,62 @@
+[
+  {
+    "actor": "User any role",
+    "command": "Create Task",
+    "data": "User ids, Task",
+    "event": "Tasks.Created"
+  },
+  {
+    "actor": "User Admin/Manager",
+    "command": "Reassign Tasks",
+    "data": "Admin/Manager id, User ids, Task ids",
+    "event": "Tasks.StatusUpdated"
+  },
+  {
+    "actor": "User Task owner",
+    "command": "Complete Task",
+    "data": "User id, Task id",
+    "event": "Tasks.StatusUpdated"
+  },
+  {
+    "actor": "Tasks.Created Event",
+    "command": "Set Task price",
+    "data": "Task id",
+    "event": "Tasks.PriceUpdated"
+  },
+  {
+    "actor": ["Tasks.PriceUpdated Event", "Tasks.StatusUpdated Event"],
+    "command": "Write-off Task price from User balance",
+    "data": "Task, User id",
+    "event": "Users.BalanceUpdated"
+  },
+  {
+    "actor": "Tasks.StatusUpdated Event",
+    "command": "Enroll Task price to User balance",
+    "data": "Task, User id",
+    "event": "Users.BalanceUpdated"
+  },
+  {
+    "actor": ["Tasks.PriceUpdated Event", "Tasks.StatusUpdated Event"],
+    "command": "Create audit earnings record",
+    "data": "Task, User id",
+    "event": "Audit.EarningsCreated"
+  },
+  {
+    "actor": "Cron Service",
+    "command": "Calculate daily earnings",
+    "data": "Audit earnings, User id",
+    "event": "Audit.EarningsCalculated"
+  },
+  {
+    "actor": "Audit.EarningsCalculated Event",
+    "command": "Send email",
+    "data": "Audit earnings, User",
+    "event": "Audit.EmailSent"
+  },
+  {
+    "actor": "Audit.EarningsCalculated Event",
+    "command": "Pay out daily earnings",
+    "data": "Audit earnings, User id",
+    "event": "Audit.PaymentsUpdated"
+  }
+]
